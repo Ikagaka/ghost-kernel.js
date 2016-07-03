@@ -1,9 +1,5 @@
 import {RoutableComponent, RoutableComponentRoutes} from 'routable-component';
 
-// shim
-require('core-js/fn/array/iterator');
-require('core-js/fn/symbol');
-
 /**
  * ルーティング設定クラスのリスト
  * @type {RoutableComponentRouting[]}
@@ -12,7 +8,7 @@ export const GhostKernelRoutings = [];
 
 /**
  * コントローラクラスの連想配列
- * @type {Hash<GhostKernelController>}
+ * @type {Object<GhostKernelController>}
  */
 export const GhostKernelControllers = {};
 
@@ -20,64 +16,21 @@ export const GhostKernelControllers = {};
 export class GhostKernel extends RoutableComponent {
   /**
    * constructor
-   * @param {Object} event_source - Event source
-   * @param {Shiorif} event_source.shiorif - SHIORI interface
-   * @param {Shell} event_source.view - Shell interface
-   * @param {SakuraScriptPlayer} event_source.ssp - Sakura Script runner
-   * @param {NamedKernelManager} event_source.manager - Named Kernel Manager
-   * @param {TimerEventSource} event_source.time - Timer event source
-   * @param {RoutableComponentRoutes} [routes] - ルーティング
-   * @param {Hash<GhostKernelController>} [controllers] - コントローラ
+   * @param {Object<EventEmitter>} components components
+   * @param {Shiorif} components.Shiorif SHIORI interface
+   * @param {Shell} components.View Shell interface
+   * @param {SakuraScriptRunner} components.SakuraScriptRunner SakuraScript Runner
+   * @param {NamedKernelManager} components.NamedKernelManager Named Kernel Manager
+   * @param {TimerEventSource} components.Time Timer event source
+   * @param {RoutableComponentRoutes} [routes] ルーティング
+   * @param {Object<GhostKernelController>} [controllers] コントローラ
    */
-  constructor(event_source, routes = new RoutableComponentRoutes(GhostKernelRoutings), controllers = GhostKernelControllers) {
-    const {shiorif, view, ssp, manager, time} = event_source;
-    super();
-
-    this._shiorif = shiorif;
-    this._view = view;
-    this._ssp = ssp;
-    this._manager = manager;
-    this._time = time;
-
+  constructor(components, routes = new RoutableComponentRoutes(GhostKernelRoutings), controllers = GhostKernelControllers) {
+    super(components);
+    this.components.GhostKernel = this;
     this._routes = routes;
     this.routes.setup_to(this, controllers);
   }
-
-  /**
-   * SHIORI Interface
-   * @type {Shiorif}
-   */
-  get shiorif() { return this._shiorif; }
-
-  /**
-   * View Interface
-   * @type {Shell}
-   */
-  get view() { return this._view; }
-
-  /**
-   * Sakura Script Player
-   * @type {SakuraScriptPlayer}
-   */
-  get ssp() { return this._ssp; }
-
-  /**
-   * Kernel Manager
-   * @type {NamedKernelManager}
-   */
-  get manager() { return this._manager; }
-
-  /**
-   * Timer event source
-   * @type {TimerEventSource}
-   */
-  get time() { return this._time; }
-
-  /**
-   * Kernel
-   * @type {GhostKernel} kernel
-   */
-  get kernel() { return this; }
 
   /**
    * Kernel event routes
@@ -94,11 +47,11 @@ export class GhostKernel extends RoutableComponent {
   }
 
   /**
-   * emits version complete event
+   * emits protocol version fixed event
    * @return {void}
    */
-  version_complete() {
-    this.emit('version_complete');
+  protocol_version_fixed() {
+    this.emit('protocol_version_fixed');
   }
 
   /**

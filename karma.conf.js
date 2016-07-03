@@ -8,7 +8,7 @@ module.exports = (config) =>
     plugins: [
       'karma-mocha',
       'karma-webpack',
-      'karma-mocha-reporter',
+      'karma-mocha-own-reporter',
       'karma-ie-launcher',
       'karma-firefox-launcher',
       'karma-chrome-launcher',
@@ -68,7 +68,7 @@ module.exports = (config) =>
         },
       },
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['mocha-own', 'coverage'],
     detectBrowsers: {
       postDetection: function(availableBrowsers) {
         const result = availableBrowsers;

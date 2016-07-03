@@ -63,10 +63,6 @@ var ghostKernel =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// shim
-	__webpack_require__(3);
-	__webpack_require__(49);
-	
 	/**
 	 * ルーティング設定クラスのリスト
 	 * @type {RoutableComponentRouting[]}
@@ -75,7 +71,7 @@ var ghostKernel =
 	
 	/**
 	 * コントローラクラスの連想配列
-	 * @type {Hash<GhostKernelController>}
+	 * @type {Object<GhostKernelController>}
 	 */
 	var GhostKernelControllers = exports.GhostKernelControllers = {};
 	
@@ -86,44 +82,33 @@ var ghostKernel =
 	
 	  /**
 	   * constructor
-	   * @param {Object} event_source - Event source
-	   * @param {Shiorif} event_source.shiorif - SHIORI interface
-	   * @param {Shell} event_source.view - Shell interface
-	   * @param {SakuraScriptPlayer} event_source.ssp - Sakura Script runner
-	   * @param {NamedKernelManager} event_source.manager - Named Kernel Manager
-	   * @param {TimerEventSource} event_source.time - Timer event source
-	   * @param {RoutableComponentRoutes} [routes] - ルーティング
-	   * @param {Hash<GhostKernelController>} [controllers] - コントローラ
+	   * @param {Object<EventEmitter>} components components
+	   * @param {Shiorif} components.Shiorif SHIORI interface
+	   * @param {Shell} components.View Shell interface
+	   * @param {SakuraScriptRunner} components.SakuraScriptRunner SakuraScript Runner
+	   * @param {NamedKernelManager} components.NamedKernelManager Named Kernel Manager
+	   * @param {TimerEventSource} components.Time Timer event source
+	   * @param {RoutableComponentRoutes} [routes] ルーティング
+	   * @param {Object<GhostKernelController>} [controllers] コントローラ
 	   */
 	
-	  function GhostKernel(event_source) {
+	  function GhostKernel(components) {
 	    var routes = arguments.length <= 1 || arguments[1] === undefined ? new _routableComponent.RoutableComponentRoutes(GhostKernelRoutings) : arguments[1];
 	    var controllers = arguments.length <= 2 || arguments[2] === undefined ? GhostKernelControllers : arguments[2];
 	
 	    _classCallCheck(this, GhostKernel);
 	
-	    var shiorif = event_source.shiorif;
-	    var view = event_source.view;
-	    var ssp = event_source.ssp;
-	    var manager = event_source.manager;
-	    var time = event_source.time;
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GhostKernel).call(this, components));
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GhostKernel).call(this));
-	
-	    _this._shiorif = shiorif;
-	    _this._view = view;
-	    _this._ssp = ssp;
-	    _this._manager = manager;
-	    _this._time = time;
-	
+	    _this.components.GhostKernel = _this;
 	    _this._routes = routes;
 	    _this.routes.setup_to(_this, controllers);
 	    return _this;
 	  }
 	
 	  /**
-	   * SHIORI Interface
-	   * @type {Shiorif}
+	   * Kernel event routes
+	   * @type {RoutableComponentRoutes}
 	   */
 	
 	
@@ -140,14 +125,14 @@ var ghostKernel =
 	    }
 	
 	    /**
-	     * emits version complete event
+	     * emits protocol version fixed event
 	     * @return {void}
 	     */
 	
 	  }, {
-	    key: 'version_complete',
-	    value: function version_complete() {
-	      this.emit('version_complete');
+	    key: 'protocol_version_fixed',
+	    value: function protocol_version_fixed() {
+	      this.emit('protocol_version_fixed');
 	    }
 	
 	    /**
@@ -160,72 +145,6 @@ var ghostKernel =
 	    value: function close() {
 	      this.emit('close');
 	    }
-	  }, {
-	    key: 'shiorif',
-	    get: function get() {
-	      return this._shiorif;
-	    }
-	
-	    /**
-	     * View Interface
-	     * @type {Shell}
-	     */
-	
-	  }, {
-	    key: 'view',
-	    get: function get() {
-	      return this._view;
-	    }
-	
-	    /**
-	     * Sakura Script Player
-	     * @type {SakuraScriptPlayer}
-	     */
-	
-	  }, {
-	    key: 'ssp',
-	    get: function get() {
-	      return this._ssp;
-	    }
-	
-	    /**
-	     * Kernel Manager
-	     * @type {NamedKernelManager}
-	     */
-	
-	  }, {
-	    key: 'manager',
-	    get: function get() {
-	      return this._manager;
-	    }
-	
-	    /**
-	     * Timer event source
-	     * @type {TimerEventSource}
-	     */
-	
-	  }, {
-	    key: 'time',
-	    get: function get() {
-	      return this._time;
-	    }
-	
-	    /**
-	     * Kernel
-	     * @type {GhostKernel} kernel
-	     */
-	
-	  }, {
-	    key: 'kernel',
-	    get: function get() {
-	      return this;
-	    }
-	
-	    /**
-	     * Kernel event routes
-	     * @type {RoutableComponentRoutes}
-	     */
-	
 	  }, {
 	    key: 'routes',
 	    get: function get() {
@@ -292,6 +211,10 @@ var ghostKernel =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	// shim
+	__webpack_require__(3);
+	__webpack_require__(49);
+	
 	/**
 	 * ルーティング可能なコンポーネント
 	 */
@@ -299,26 +222,33 @@ var ghostKernel =
 	var RoutableComponent = exports.RoutableComponent = function (_EventEmitter) {
 	  _inherits(RoutableComponent, _EventEmitter);
 	
+	  /**
+	   * constructor
+	   * @param {Object<EventEmitter>} components components
+	   */
+	
 	  function RoutableComponent() {
+	    var components = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
 	    _classCallCheck(this, RoutableComponent);
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RoutableComponent).call(this));
 	
-	    _this._models = {};
+	    _this._components = components;
 	    _this._controllers = {};
 	    return _this;
 	  }
 	
 	  /**
-	   * Models
-	   * @type {Hash<Object>}
+	   * Components
+	   * @type {Hash<EventEmitter>}
 	   */
 	
 	
 	  _createClass(RoutableComponent, [{
-	    key: 'models',
+	    key: 'components',
 	    get: function get() {
-	      return this._models;
+	      return this._components;
 	    }
 	
 	    /**
@@ -458,12 +388,15 @@ var ghostKernel =
 	        var _loop = function _loop() {
 	          var route = _step2.value;
 	
-	          component[route.from].on(route.event, function () {
+	          component.components[route.from].on(route.event, function () {
 	            var _component$controller;
 	
 	            if (!component.controllers[route.controller]) {
 	              // なければコントローラを初期化
 	              component.controllers[route.controller] = new controller_classes[route.controller](component);
+	            }
+	            if (!component.controllers[route.controller][route.action]) {
+	              throw new Error('controller [' + route.controller + '] does not have action [' + route.action + ']');
 	            }
 	            (_component$controller = component.controllers[route.controller])[route.action].apply(_component$controller, arguments);
 	          });
@@ -501,7 +434,7 @@ var ghostKernel =
 	          if (!(_route.controller in controller_classes)) {
 	            throw new Error('controller [' + _route.controller + '] not found');
 	          }
-	          if (!(_route.from in component)) {
+	          if (!(_route.from in component.components)) {
 	            throw new Error('component from [' + _route.from + '] not found');
 	          }
 	        }
@@ -520,24 +453,25 @@ var ghostKernel =
 	        }
 	      }
 	    }
-	
-	    // [Symbol.iterator]() {
-	    //   return this._routes[Symbol.iterator]();
-	    // }
+	  }, {
+	    key: Symbol.iterator,
+	    value: function value() {
+	      return this._routes[Symbol.iterator]();
+	    }
 	
 	    /**
 	     * イベントを定義する
 	     * @param {...string} args from, event, controller, action(前提としたものは省く)それぞれの名称文字列
 	     * @return {void}
 	     * @example
-	     * router.event('shell', 'clicked', 'ShellController', 'shell_clicked') // full
-	     * router.event('shell', 'clicked', 'ShellController') // event = action
+	     * router.event('shell', 'clicked', 'ShellController', 'shell_clicked'); // full
+	     * router.event('shell', 'clicked', 'ShellController'); // event = action
 	     * router.controller('ShellController', function(router) {
-	     *   router.event('shell', 'clicked') // controllerは前提があるので省く
+	     *   router.event('shell', 'clicked'); // controllerは前提があるので省く
 	     * });
 	     * router.from('shell', function(router) {
 	     *   router.controller('ShellController', function(router) {
-	     *     router.event('clicked') // from, controllerは前提があるので省く
+	     *     router.event('clicked'); // from, controllerは前提があるので省く
 	     *   });
 	     * });
 	     */
