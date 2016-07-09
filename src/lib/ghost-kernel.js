@@ -21,22 +21,14 @@ export class GhostKernel extends RoutableComponent {
    * @param {Shell} components.View Shell interface
    * @param {SakuraScriptRunner} components.SakuraScriptRunner SakuraScript Runner
    * @param {NamedKernelManager} components.NamedKernelManager Named Kernel Manager
-   * @param {TimerEventSource} components.Time Timer event source
+   * @param {TimerEventSource} components.TimerEventSource Timer event source
    * @param {RoutableComponentRoutes} [routes] ルーティング
-   * @param {Object<GhostKernelController>} [controllers] コントローラ
+   * @param {Object<class<GhostKernelController>>} [controller_classes] コントローラ
    */
-  constructor(components, routes = new RoutableComponentRoutes(GhostKernelRoutings), controllers = GhostKernelControllers) {
-    super(components);
-    this.components.GhostKernel = this;
-    this._routes = routes;
-    this.routes.setup_to(this, controllers);
+  constructor(components, routes = new RoutableComponentRoutes(GhostKernelRoutings), controller_classes = GhostKernelControllers) {
+    super(components, routes, controller_classes);
+    this.register_component('GhostKernel', this);
   }
-
-  /**
-   * Kernel event routes
-   * @type {RoutableComponentRoutes}
-   */
-  get routes() { return this._routes; }
 
   /**
    * start kernel (emits start event)
