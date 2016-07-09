@@ -95,11 +95,6 @@ var ghostKernel =
 	  function GhostKernel(components) {
 	    var routes = arguments.length <= 1 || arguments[1] === undefined ? new _routableComponent.RoutableComponentRoutes(GhostKernelRoutings) : arguments[1];
 	    var controller_classes = arguments.length <= 2 || arguments[2] === undefined ? GhostKernelControllers : arguments[2];
-	    console.assert(typeof Shiorif === "undefined" || components.Shiorif instanceof Shiorif, 'Invalid JSDoc @param: (\ntypeof Shiorif === "undefined" || components.Shiorif instanceof Shiorif\n)');
-	    console.assert(typeof Shell === "undefined" || components.View instanceof Shell, 'Invalid JSDoc @param: (\ntypeof Shell === "undefined" || components.View instanceof Shell\n)');
-	    console.assert(typeof SakuraScriptRunner === "undefined" || components.SakuraScriptRunner instanceof SakuraScriptRunner, 'Invalid JSDoc @param: (\ntypeof SakuraScriptRunner === "undefined" || components.SakuraScriptRunner instanceof SakuraScriptRunner\n)');
-	    console.assert(typeof NamedKernelManager === "undefined" || components.NamedKernelManager instanceof NamedKernelManager, 'Invalid JSDoc @param: (\ntypeof NamedKernelManager === "undefined" || components.NamedKernelManager instanceof NamedKernelManager\n)');
-	    console.assert(typeof TimerEventSource === "undefined" || components.TimerEventSource instanceof TimerEventSource, 'Invalid JSDoc @param: (\ntypeof TimerEventSource === "undefined" || components.TimerEventSource instanceof TimerEventSource\n)');
 	
 	    _classCallCheck(this, GhostKernel);
 	
@@ -160,8 +155,6 @@ var ghostKernel =
 	   */
 	
 	  function GhostKernelController(kernel) {
-	    console.assert(typeof GhostKernel === "undefined" || kernel instanceof GhostKernel, 'Invalid JSDoc @param: (\ntypeof GhostKernel === "undefined" || kernel instanceof GhostKernel\n)');
-	
 	    _classCallCheck(this, GhostKernelController);
 	
 	    this._kernel = kernel;
