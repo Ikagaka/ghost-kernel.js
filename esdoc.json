@@ -4,5 +4,8 @@
   "excludes": [],
   "access": ["public", "protected"],
   "debug": false,
-  "index": "Readme.md"
+  "index": "Readme.md",
+  "plugins": [
+    {"name": "esdoc-es7-plugin"}
+  ]
 }

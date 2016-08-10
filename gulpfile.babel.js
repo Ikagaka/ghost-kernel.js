@@ -8,6 +8,7 @@ import webpackStream from 'webpack-stream';
 import {Server} from 'karma';
 import package_json from './package.json';
 import webpack_config from './webpack.config.js';
+import esdoc_json from './esdoc.json';
 
 const files = {
   src: {
@@ -148,8 +149,9 @@ gulp.task('clean-doc', function(done) {
 });
 
 gulp.task('doc', ['clean-doc'], function() {
+  esdoc_json.destination = dirs.doc;
   return gulp.src(dirs.src, {read: false, base: dirs.src})
-    .pipe($.esdoc({destination: dirs.doc}));
+    .pipe($.esdoc(esdoc_json));
 });
 
 gulp.task('watch', function() {
