@@ -161,13 +161,13 @@ var ghostKernel =
 	          while (1) {
 	            switch (_context.prev = _context.next) {
 	              case 0:
-	                _context.next = 2;
+	                this._namedId = this.components.NamedKernelManager.namedId(this);
+	                _context.next = 3;
 	                return this.components.NanikaStorage.ghost_descript(this.namedId);
 	
-	              case 2:
+	              case 3:
 	                this._ghostDescript = _context.sent;
 	
-	                this._namedId = this.components.NamedKernelManager.namedId(this);
 	                this.emit('start');
 	
 	              case 5:

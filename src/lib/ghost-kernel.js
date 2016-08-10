@@ -34,8 +34,8 @@ export class GhostKernel extends RoutableComponent {
    * @return {void}
    */
   async start() {
-    this._ghostDescript = await this.components.NanikaStorage.ghost_descript(this.namedId);
     this._namedId = this.components.NamedKernelManager.namedId(this);
+    this._ghostDescript = await this.components.NanikaStorage.ghost_descript(this.namedId);
     this.emit('start');
   }
 
