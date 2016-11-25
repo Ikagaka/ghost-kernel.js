@@ -71,6 +71,7 @@
     "tslint": "^4.0.2",
     "tslint-loader": "^3.2.0",
     "typedoc": "^0.5.1",
+    "typedoc-default-themes": "0.4.0",
     "typescript": "^2.1.1",
     "webpack": "^1.13.3",
     "webpack-config-narazaka-ts-js": "0.2.0"

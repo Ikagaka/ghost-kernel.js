@@ -1,0 +1,4 @@
+[submodule "doc"]
+	path = doc
+	url = https://github.com/Ikagaka/ghost-kernel.js.git
+	branch = gh-pages
