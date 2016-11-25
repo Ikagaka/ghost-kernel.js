@@ -41,7 +41,7 @@ var Ghostkernel = ghostKernel.Ghostkernel;
 
 ## API
 
-[API Document](https://doc.esdoc.org/github.com/Ikagaka/ghost-kernel.js/)
+[API Document](https://ikagaka.github.io/ghost-kernel.js/)
 
 ## License
 
