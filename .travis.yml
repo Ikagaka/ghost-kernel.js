@@ -15,3 +15,5 @@ after_success:
 cache:
   directories:
     - node_modules
+addons:
+  firefox: latest-esr
