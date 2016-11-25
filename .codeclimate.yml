@@ -1,7 +1,14 @@
-languages:
-  JavaScript: true
 engines:
   eslint:
     enabled: true
     config:
       config: .eslintrc.yml
+  tslint:
+    enabled: true
+ratings:
+  paths:
+    - "src/**"
+    - "test/**"
+    - "/*"
+    - "**.js"
+    - "**.ts"
