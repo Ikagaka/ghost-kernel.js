@@ -4,8 +4,6 @@
 [![npm license](https://img.shields.io/npm/l/ghost-kernel.svg)](https://www.npmjs.com/package/ghost-kernel)
 [![npm download total](https://img.shields.io/npm/dt/ghost-kernel.svg)](https://www.npmjs.com/package/ghost-kernel)
 [![npm download by month](https://img.shields.io/npm/dm/ghost-kernel.svg)](https://www.npmjs.com/package/ghost-kernel)
-[![Bower](https://img.shields.io/bower/v/ghost-kernel.svg)](https://github.com/Ikagaka/ghost-kernel.js)
-[![Bower](https://img.shields.io/bower/l/ghost-kernel.svg)](https://github.com/Ikagaka/ghost-kernel.js)
 
 [![Dependency Status](https://david-dm.org/Ikagaka/ghost-kernel.js.svg)](https://david-dm.org/Ikagaka/ghost-kernel.js)
 [![devDependency Status](https://david-dm.org/Ikagaka/ghost-kernel.js/dev-status.svg)](https://david-dm.org/Ikagaka/ghost-kernel.js#info=devDependencies)
@@ -18,14 +16,8 @@ ikagaka ghost kernel
 
 ## Install
 
-npm:
 ```
 npm install ghost-kernel
-```
-
-bower:
-```
-bower install ghost-kernel
 ```
 
 ## Usage

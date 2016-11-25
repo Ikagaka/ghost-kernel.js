@@ -1,13 +1,13 @@
 {
   "presets": [
-    "es2015",
-    "stage-3"
+    "latest"
   ],
-  "plugins": ["transform-runtime"],
+  "plugins": [
+    "transform-runtime"
+  ],
   "env": {
-    "development": {
+    "test": {
       "presets": [
-        "jsdoc-to-assert",
         "power-assert"
       ]
     }
