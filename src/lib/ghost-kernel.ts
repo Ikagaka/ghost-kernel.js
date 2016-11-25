@@ -5,6 +5,7 @@ import {
   LazyEventRouter,
 } from "lazy-event-router";
 import {Operation} from "./operation";
+export {Operation};
 
 /** ルーティング設定クラスのリスト */
 export const GhostKernelRoutings: EventRoutingConstructor[] = [];
