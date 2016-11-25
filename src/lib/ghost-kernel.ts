@@ -6,10 +6,7 @@ import {
 } from "lazy-event-router";
 import {Operation} from "./operation";
 
-/**
- * ルーティング設定クラスのリスト
- * @type {RoutableComponentRouting[]}
- */
+/** ルーティング設定クラスのリスト */
 export const GhostKernelRoutings: EventRoutingConstructor[] = [];
 
 /** Ukagaka baseware ghost instance kernel */
@@ -28,9 +25,7 @@ export class GhostKernel extends LazyEventRouter {
   get operation() { return this.component(Operation); }
 }
 
-/**
- * カーネル用のコントローラ
- */
+/** カーネル用のコントローラ */
 export class GhostKernelController implements EventController {
   /** カーネル */
   protected readonly kernel: GhostKernel;
