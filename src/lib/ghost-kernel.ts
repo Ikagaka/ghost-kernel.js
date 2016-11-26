@@ -4,8 +4,14 @@ import {
   EventRoutingConstructor,
   LazyEventRouter,
 } from "lazy-event-router";
-import {Operation} from "./operation";
-export {Operation};
+import {
+  ChangeTransactionInfo,
+  Operation,
+} from "./operation";
+export {
+  ChangeTransactionInfo,
+  Operation,
+};
 
 /** ルーティング設定クラスのリスト */
 export const GhostKernelRoutings: EventRoutingConstructor[] = [];
