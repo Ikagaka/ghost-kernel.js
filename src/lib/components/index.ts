@@ -4,6 +4,7 @@ export * from "./KernelCloseOperation";
 export * from "./KernelPhase";
 export * from "./KernelStartOperation";
 export * from "./SakuraScriptState";
+export * from "./ShellState";
 export * from "./ShioriResources";
 export * from "./ShioriVersionInfo";
 export * from "./TimerEventState";

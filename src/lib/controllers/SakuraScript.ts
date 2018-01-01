@@ -3,10 +3,10 @@ import { EventRoutingDefiner } from "lazy-event-router";
 import { SakuraScriptToken } from "sakurascript";
 import { SakuraScriptExecuter } from "sakurascript-executer";
 import { Shiorif } from "shiorif";
+import { ShellState } from "../components";
 import { SakuraScriptState } from "../index";
 // import { KernelPhase, KernelStartOperation } from "../components";
 import { GhostKernelController } from "./GhostKernelController";
-import { ShellState } from "./shell";
 
 export const SakuraScriptRouting: EventRoutingDefiner = (routes) => {
   routes.controller(SakuraScriptController, (routes2) => {
