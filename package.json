@@ -27,7 +27,6 @@
     "doc": "typedoc --mode modules --out doc --readme Readme.md --name \"API Document\" --disableOutputCheck --includeDeclarations --excludeNotExported src && cd doc && git status && cd .."
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0",
     "lazy-event-router": "^6.0.3",
     "sakurascript": "^1.1.0",
     "sakurascript-executer": "^2.0.0",
@@ -36,16 +35,8 @@
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
-    "babel-core": "^6.23.1",
-    "babel-eslint": "^7.1.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-latest": "^6.22.0",
-    "babel-register": "^6.23.0",
     "browserfs": "^1.2.0",
     "cross-env": "^3.1.4",
-    "eslint": "^3.15.0",
-    "eslint-config-narazaka": "^1.0.1",
-    "phantomjs-prebuilt": "^2.1.14",
     "ts-node": "^2.1.0",
     "tslint": "^4.4.2",
     "typedoc": "^0.5.7",
