@@ -124,6 +124,31 @@ declare module "cuttlebone" {
     play(id: number): void;
   }
 
-  export type Balloon = any;
-  export type Blimp = any;
+  export class Balloon {
+    constructor(directory: { [path: string]: ArrayBuffer; });
+    load(): Promise<this>;
+    unload(): void;
+  }
+
+  export class Blimp {
+    isBalloonLeft: boolean;
+    width: number;
+    height: number;
+    render(): void;
+    surface(balloonId: number): void;
+    left(): void;
+    right(): void;
+    anchorBegin(...args: string[]): void;
+    anchorEnd(): void;
+    choice(...args: string[]): void;
+    choiceBegin(...args: string[]): void;
+    choiceEnd(): void;
+    talk(text: string): void;
+    marker(): void;
+    clear(): void;
+    br(radio?: number): void;
+    showWait(): void;
+    font(name: string, ...values: string[]): void;
+    location( x: string, y?: string ): void;
+  }
 }
