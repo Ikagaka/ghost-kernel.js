@@ -8,7 +8,7 @@ import { GhostKernelController } from "./GhostKernelController";
 export const TimeEventRouting: EventRoutingDefiner = (routes) => {
   routes.controller(TimeEventController, (routes2) => {
     routes2.from(KernelPhase, (from, controller) => {
-      from.on("versionFixed", controller.enableTimeEvents); // TODO: いつが最初なのが正しい?
+      from.on("versionFixed", controller.start); // TODO: いつが最初なのが正しい?
       from.on("halted", controller.halt);
     });
     routes2.from(TimerEventSource, (from, controller) => {
@@ -20,6 +20,7 @@ export const TimeEventRouting: EventRoutingDefiner = (routes) => {
 
 export class TimeEventController extends GhostKernelController {
   start() {
+    this.kernel.registerComponent(new TimerEventState());
     this.enableTimeEvents();
   }
 
@@ -57,10 +58,7 @@ export class TimeEventController extends GhostKernelController {
   }
 
   private get timerEventState() {
-    const component = this.kernel.component(TimerEventState);
-    if (!component) throw new Error("TimerEventState not initialized");
-
-    return component;
+    return this.kernel.component(TimerEventState) as TimerEventState;
   }
 
   private _timeHeaders() {
