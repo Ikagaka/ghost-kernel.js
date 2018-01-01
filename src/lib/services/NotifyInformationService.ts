@@ -12,7 +12,7 @@ export class NotifyInformationService {
   }
 
   async ownerghostname() {
-    const descriptInfo = await this.kernel.component(NanikaGhostDirectory).descriptInfo();
+    const descriptInfo = await this.kernel.component(NanikaGhostDirectory).master().descriptInfo();
     await this.kernel.component(Shiorif).notify3("ownerghostname", [descriptInfo.name]);
   }
 

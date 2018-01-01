@@ -13,12 +13,12 @@ export class BootService {
   private get shiorif() { return this.kernel.component(Shiorif); }
   private get kernelPhase() { return this.kernel.component(KernelPhase); }
   private get kernelStartOperation() { return this.kernel.component(KernelStartOperation); }
-  private get nanikaGhostDirectory() { return this.kernel.component(NanikaGhostDirectory); }
+  private get nanikaGhostMasterDirectory() { return this.kernel.component(NanikaGhostDirectory).master(); }
 
   async perform() {
     const kernelStartOperation = this.kernelStartOperation;
-    const nanikaGhostDirectory = this.nanikaGhostDirectory;
-    const profile = await nanikaGhostDirectory.readProfile();
+    const nanikaGhostMasterDirectory = this.nanikaGhostMasterDirectory;
+    const profile = await nanikaGhostMasterDirectory.readProfile();
     const bootCount = profile.bootCount as number || 0;
     profile.bootCount = bootCount + 1;
     if (bootCount === 1) {
@@ -33,7 +33,7 @@ export class BootService {
     } else {
       await this.vanished(profile);
     }
-    await nanikaGhostDirectory.writeProfile(profile); // 起動が成功してから保存
+    await nanikaGhostMasterDirectory.writeProfile(profile); // 起動が成功してから保存
   }
 
   private async firstBoot(profile: {[name: string]: any}) {
