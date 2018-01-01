@@ -103,13 +103,13 @@ export class ShellController extends GhostKernelController {
     } else if (event.args.length) { // Ex
       shiorif.get3("OnChoiceSelectEx", [event.text, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
     } else { // normal
-      shiorif.get3("OnChoiceSelectEx", [event.text, event.id]).then((transaction) => {
+      shiorif.get3("OnChoiceSelectEx", [event.text, event.id]).then(async (transaction) => {
         const value = transaction.response.to("3.0").headers.Value;
         // tslint:disable-next-line no-null-keyword
         if (value != null && value.length) {
-          this.kernel.executeSakuraScript(transaction);
+          await this.kernel.executeSakuraScript(transaction);
         } else {
-          shiorif.get3("OnChoiceSelect", [event.id]).then(this.kernel.executeSakuraScript);
+          await shiorif.get3("OnChoiceSelect", [event.id]).then(this.kernel.executeSakuraScript);
         }
       });
     }
@@ -124,38 +124,38 @@ export class ShellController extends GhostKernelController {
     } else if (event.args.length) { // Ex
       shiorif.get3("OnAnchorSelectEx", [event.text, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
     } else { // Normal
-      shiorif.get3("OnAnchorSelectEx", [event.text, event.id]).then((transaction) => {
+      shiorif.get3("OnAnchorSelectEx", [event.text, event.id]).then(async (transaction) => {
         const value = transaction.response.to("3.0").headers.Value;
         // tslint:disable-next-line no-null-keyword
         if (value != null && value.length) {
-          this.kernel.executeSakuraScript(transaction);
+          await this.kernel.executeSakuraScript(transaction);
         } else {
-          shiorif.get3("OnAnchorSelect", [event.id]).then(this.kernel.executeSakuraScript);
+          await shiorif.get3("OnAnchorSelect", [event.id]).then(this.kernel.executeSakuraScript);
         }
       });
     }
   }
 
-  userinput(event: BalloonInputEvent) {
+  async userinput(event: BalloonInputEvent) {
     const shiorif = this.kernel.component(Shiorif);
-    // tslint:disable-next-line no-null-keyword
+    // tslint:disable-next-line no-null-keyword strict-type-predicates
     if (event.content != null) {
-      shiorif.get3("OnUserInput", [event.id, event.content]).then(this.kernel.executeSakuraScript);
+      await shiorif.get3("OnUserInput", [event.id, event.content]).then(this.kernel.executeSakuraScript);
     } else {
       const reason = "close"; // TODO: reason
-      shiorif.get3("OnUserInputCancel", [event.id, reason]).then(this.kernel.executeSakuraScript);
+      await shiorif.get3("OnUserInputCancel", [event.id, reason]).then(this.kernel.executeSakuraScript);
     }
   }
 
-  communicateinput(event: BalloonInputEvent) {
+  async communicateinput(event: BalloonInputEvent) {
     const shiorif = this.kernel.component(Shiorif);
-    // tslint:disable-next-line no-null-keyword
+    // tslint:disable-next-line no-null-keyword strict-type-predicates
     if (event.content != null) {
       // TODO: 拡張情報?
-      shiorif.get3("OnCommunicate", ["user", event.content]).then(this.kernel.executeSakuraScript);
+      await shiorif.get3("OnCommunicate", ["user", event.content]).then(this.kernel.executeSakuraScript);
     } else {
       const reason = "cancel"; // TODO: reason
-      shiorif.get3("OnCommunicateInputCancel", ["", reason]).then(this.kernel.executeSakuraScript);
+      await shiorif.get3("OnCommunicateInputCancel", ["", reason]).then(this.kernel.executeSakuraScript);
     }
   }
 

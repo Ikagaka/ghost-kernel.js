@@ -93,7 +93,7 @@ export class SakuraScriptController extends GhostKernelController {
   }
 
   _handle_view(token: SakuraScriptToken) {
-    const named = this.kernel.component(Named) as any;
+    const named = this.kernel.component(Named);
     const scope = named.scope();
     const surface = scope.surface();
     if (token instanceof SakuraScriptToken.Scope) {
@@ -313,12 +313,12 @@ export class SakuraScriptController extends GhostKernelController {
 
   static _setHandler = {
     balloontimeout(this: SakuraScriptController, token: SakuraScriptToken.Set) {
-      // tslint:disable-next-line no-non-null-assertion
-      this.kernel.component(ShellState)!.balloonTimeout = Number(token.args[0]);
+      const shellState = this.kernel.component(ShellState);
+      if (shellState) shellState.balloonTimeout = Number(token.args[0]);
     },
     choicetimeout(this: SakuraScriptController, token: SakuraScriptToken.Set) {
-      // tslint:disable-next-line no-non-null-assertion
-      this.kernel.component(ShellState)!.choiceTimeout = Number(token.args[0]);
+      const shellState = this.kernel.component(ShellState);
+      if (shellState) shellState.choiceTimeout = Number(token.args[0]);
     },
   };
 

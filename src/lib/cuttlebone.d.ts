@@ -95,6 +95,10 @@ declare module "cuttlebone" {
     surface(surfaceId?: number | string): Surface;
     blimp(blimpId?: number): Blimp;
     position(pos?: {right: number; bottom: number}): {right: number; bottom: number};
+    bind(category: string, parts: string): void;
+    bind(scopeId: number, bindgroupId: number): void;
+    unbind(category: string, parts: string): void;
+    unbind(scopeId: number, bindgroupId: number): void;
   }
 
   export class Shell extends EventEmitter {
@@ -117,6 +121,7 @@ declare module "cuttlebone" {
   export class Surface {
     render(): void;
     yenE(): void;
+    play(id: number): void;
   }
 
   export type Balloon = any;
