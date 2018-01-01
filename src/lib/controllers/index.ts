@@ -1,7 +1,7 @@
 export * from "./GhostKernelController";
 export * from "./Information";
 export * from "./KernelOperation";
-// export * from "./MenuController";
+export * from "./Menu";
 export * from "./NotifyInformation";
 export * from "./SakuraScript";
 export * from "./Shell";

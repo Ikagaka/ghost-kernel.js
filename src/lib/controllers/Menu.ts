@@ -1,29 +1,39 @@
-/*
-import {GhostKernelController, GhostKernelControllers, GhostKernelRoutings} from "ghost-kernel";
+// tslint:disable max-classes-per-file
+
+import { ContextMenuEvent, Named } from "cuttlebone";
+import { EventRoutingDefiner } from "lazy-event-router";
+import { SakuraScriptExecuter } from "sakurascript-executer";
+import { GhostKernel } from "../GhostKernel";
+import { KernelPhase } from "../index";
+import { GhostKernelController } from "./GhostKernelController";
 
 export class Menu {
-  constructor(kernel) {
+  private kernel: GhostKernel;
+
+  constructor(kernel: GhostKernel) {
     this.kernel = kernel;
   }
 
-  contextmenu(event) {
-    const scopeId = event.scopeId;
+  contextmenu(_event: ContextMenuEvent) {
+    // const scopeId = _event.scopeId;
     return {
       items: {
-        changeGhost:   {name: "ゴースト切り替え", items: this.changeGhost()},
-        callGhost:     {name: "他のゴーストを呼ぶ", items: this.callGhost()},
-        changeShell:   {name: "シェル", items: this.changeShell()},
-        changeBalloon: {name: "バルーン", items: this.changeBalloon()},
+        // changeGhost:   {name: "ゴースト切り替え", items: this.changeGhost()},
+        // callGhost:     {name: "他のゴーストを呼ぶ", items: this.callGhost()},
+        // changeShell:   {name: "シェル", items: this.changeShell()},
+        // changeBalloon: {name: "バルーン", items: this.changeBalloon()},
         inputScript:   {name: "開発用 スクリプト入力",
-          callback: () => this.kernel.components.SakuraScriptExecuter.execute(window.prompt("send"))},
-        quit:          {name: "終了", callback: () => this.kernel.close("user")},
-        quitAll:       {name: "全て終了", callback: () => this.kernel.components.NamedKernelManager.close("user")},
+                        callback:
+                          () => this.kernel.component(SakuraScriptExecuter).execute(window.prompt("send") || "")},
+        quit:          {name: "終了", callback: () => this.kernel.closeBy.close("user")},
+        // quitAll:       {name: "全て終了", callback: () => this.kernel.components.NamedKernelManager.close("user")},
       },
     };
   }
 
+  /*
   changeGhost() {
-    const namedKernelManager = this.kernel.components.NamedKernelManager;
+    const namedKernelManager = this.kernel.component(NamedKernelManager);
     const ghosts = namedKernelManager.components.GhostList.list;
     const menu = {};
     ghosts.forEach(([name, dirpath]) => {
@@ -84,28 +94,21 @@ export class Menu {
     });
     return menu;
   }
+  */
 }
 
-export class MenuRouting {
-  setup(routes) {
-    routes.controller("MenuController", (routes) => {
-      routes.event("GhostKernel", "start");
+export const MenuRouting: EventRoutingDefiner = (routes) => {
+  routes.controller(MenuController, (_routes) => {
+    _routes.from(KernelPhase, (from, controller) => {
       // TODO: 仕様上shellの右クリックを捕捉するべきだが現状のcuttlebone実装上マネージャのstartでハンドラを登録する
+      from.on("materialized", controller.start);
     });
-  }
-}
+  });
+};
 
 export class MenuController extends GhostKernelController {
-  constructor(kernel) {
-    super(kernel);
-  }
-
   start() {
     const menu = new Menu(this.kernel);
     this.kernel.component(Named).contextmenu(menu.contextmenu.bind(menu));
   }
 }
-
-GhostKernelControllers.MenuController = MenuController;
-GhostKernelRoutings.push(MenuRouting);
-*/
