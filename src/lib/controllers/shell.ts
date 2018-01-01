@@ -1,18 +1,12 @@
+/*
 import {EventEmitter} from "events";
-import {
-  EventRouteSetter,
-  EventRouting,
-} from "lazy-event-router";
+import { EventRoutingDefiner } from "lazy-event-router";
 import {SakuraScriptToken} from "sakurascript";
 import {SakuraScriptExecuter} from "sakurascript-executer";
 import {ShioriTransaction} from "shiori_transaction";
 import {Shiorif} from "shiorif";
-import {
-  GhostKernel,
-  GhostKernelController,
-  GhostKernelRoutings,
-  Operation,
-} from "../ghost-kernel";
+import { KernelPhase, KernelStartOperation } from "../components";
+import { GhostKernelController } from "./GhostKernelController";
 
 export class ShellState {
   named: Named;
@@ -52,30 +46,30 @@ export class ShellState {
   }
 }
 
-export class ShellRouting implements EventRouting {
-  setup(routes: EventRouteSetter) {
-    routes.controller(ShellController, (routes2) => {
-      routes2.from(Operation, (from, controller) => {
-        from.on("start", controller.start);
-        from.on("halt", controller.halt);
-      });
-      routes2.from(Named, (from, controller) => {
-        routes.event("choiceselect");
-        routes.event("anchorselect");
-        routes.event("userinput");
-        routes.event("communicateinput");
-        routes.event("mousedown");
-        routes.event("mousemove");
-        routes.event("mouseup");
-        routes.event("mouseclick");
-        routes.event("mousedblclick");
-        routes.event("balloonclick");
-        routes.event("balloondblclick");
-        routes.event("filedrop");
-      });
+export const ShellRouting: EventRoutingDefiner = (routes) => {
+  routes.controller(ShellController, (routes2) => {
+    routes2.from(KernelStartOperation, (from, controller) => {
+      from.on("start", controller.start);
     });
-  }
-}
+    routes2.from(KernelPhase, (from, controller) => {
+      from.on("halted", controller.halt);
+    });
+    routes2.from(Named, (from, controller) => {
+      routes.event("choiceselect");
+      routes.event("anchorselect");
+      routes.event("userinput");
+      routes.event("communicateinput");
+      routes.event("mousedown");
+      routes.event("mousemove");
+      routes.event("mouseup");
+      routes.event("mouseclick");
+      routes.event("mousedblclick");
+      routes.event("balloonclick");
+      routes.event("balloondblclick");
+      routes.event("filedrop");
+    });
+  });
+};
 
 export class ShellController extends GhostKernelController {
   start() {
@@ -84,7 +78,7 @@ export class ShellController extends GhostKernelController {
   }
 
   halt() {
-    this.kernel.component(ShellState).clearBalloonTimeout();
+    this.kernel.component(ShellState)!.clearBalloonTimeout();
     this.kernel.unregisterComponent(ShellState);
   }
 
@@ -112,11 +106,11 @@ export class ShellController extends GhostKernelController {
     const shiorif = this.kernel.component(Shiorif);
     if (/^On/.test(event.id)) { // On
       shiorif.get3(event.id, event.args).then(this.kernel.executeSakuraScript);
-    } else if (/^script:/.test(event.id)) { // script:
+    } else if (/^script:/.test(event.id)) { // Script:
       this.kernel.component(SakuraScriptExecuter).execute(event.id.replace(/^script:/, ""));
     } else if (event.args.length) { // Ex
       shiorif.get3("OnAnchorSelectEx", [event.label, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
-    } else { // normal
+    } else { // Normal
       shiorif.get3("OnAnchorSelectEx", [event.text, event.id]).then((transaction) => {
         const value = transaction.response.to("3.0").headers.Value;
         if (value != null && value.length) {
@@ -130,7 +124,7 @@ export class ShellController extends GhostKernelController {
 
   userinput(event) {
     const shiorif = this.kernel.component(Shiorif);
-    if (event.content != null) {
+    if (event.content != undefined) {
       shiorif.get3("OnUserInput", [event.id, event.content]).then(this.kernel.executeSakuraScript);
     } else {
       const reason = "close"; // TODO reason
@@ -140,7 +134,7 @@ export class ShellController extends GhostKernelController {
 
   communicateinput(event) {
     const shiorif = this.kernel.component(Shiorif);
-    if (event.content != null) {
+    if (event.content != undefined) {
       // TODO: 拡張情報?
       shiorif.get3("OnCommunicate", ["user", event.content]).then(this.kernel.executeSakuraScript);
     } else {
@@ -176,7 +170,7 @@ export class ShellController extends GhostKernelController {
   }
 
   balloonclick(event) { // TODO refactor
-    const named = <any> this.kernel.component(Named);
+    const named = this.kernel.component(Named) as {};
     const shellState = this.kernel.component(ShellState);
     this.kernel.component(SakuraScriptExecuter).balloonClicked();
     if (shellState.hasChoice) return; // 選択肢があればクリアされない
@@ -230,3 +224,4 @@ export class ShellController extends GhostKernelController {
 }
 
 GhostKernelRoutings.push(ShellRouting);
+*/

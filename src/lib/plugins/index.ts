@@ -1,9 +1,0 @@
-import "./information";
-import "./menu";
-import "./notify_information";
-import "./operation";
-import "./sakura_script";
-import "./shell";
-import "./time_event";
-import "./version";
-import "./visiblity";

@@ -1,4 +1,5 @@
-import {GhostKernelRoutings, GhostKernelControllers, GhostKernelController} from "ghost-kernel";
+/*
+import {GhostKernelController, GhostKernelControllers, GhostKernelRoutings} from "ghost-kernel";
 
 export class Menu {
   constructor(kernel) {
@@ -100,9 +101,10 @@ export class MenuController extends GhostKernelController {
 
   start() {
     const menu = new Menu(this.kernel);
-    this.kernel.components.Named.contextmenu(menu.contextmenu.bind(menu));
+    this.kernel.component(Named).contextmenu(menu.contextmenu.bind(menu));
   }
 }
 
 GhostKernelControllers.MenuController = MenuController;
 GhostKernelRoutings.push(MenuRouting);
+*/
