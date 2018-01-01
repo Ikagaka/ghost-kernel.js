@@ -6,11 +6,10 @@
     "ikagaka",
     "ukagaka"
   ],
-  "main": "./dist/lib/index.js",
-  "types": "./dist/lib/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "web"
+    "dist"
   ],
   "scripts": {
     "dist": "shx rm -rf dist && tsc",
