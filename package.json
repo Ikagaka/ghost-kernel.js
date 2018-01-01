@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "encoding-japanese": "^1.0.26",
-    "lazy-event-router": "^8.0.0",
+    "lazy-event-router": "^8.0.1",
     "nanika-storage": "^2.6.2",
     "sakurascript": "^1.1.0",
     "sakurascript-executer": "^2.0.0",
