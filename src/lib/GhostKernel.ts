@@ -1,3 +1,4 @@
+import { Named } from "cuttlebone";
 import {
   ComponentClass,
   EventRoutes,
@@ -27,7 +28,8 @@ export type GhostKernelRequiredComponent =
   SakuraScriptState |
   NanikaStorage |
   NanikaGhostDirectory |
-  Shiorif;
+  Shiorif |
+  Named;
 
 /** Ukagaka baseware ghost instance kernel */
 export class GhostKernel extends LazyEventRouter {

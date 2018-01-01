@@ -1,10 +1,14 @@
-/*
-import {EventEmitter} from "events";
+import {
+  BalloonInputEvent,
+  BalloonMouseEvent,
+  BalloonSelectEvent,
+  FileDropEvent,
+  Named,
+  SurfaceMouseEvent,
+} from "cuttlebone";
 import { EventRoutingDefiner } from "lazy-event-router";
-import {SakuraScriptToken} from "sakurascript";
-import {SakuraScriptExecuter} from "sakurascript-executer";
-import {ShioriTransaction} from "shiori_transaction";
-import {Shiorif} from "shiorif";
+import { SakuraScriptExecuter } from "sakurascript-executer";
+import { Shiorif } from "shiorif";
 import { KernelPhase, KernelStartOperation } from "../components";
 import { GhostKernelController } from "./GhostKernelController";
 
@@ -16,22 +20,27 @@ export class ShellState {
   hasChoice: boolean;
   balloonTimeout: number;
   choiceTimeout: number;
+  breakTimeoutId: any;
+
   constructor(named: Named) {
     this.named = named;
     this.talking = false;
     this.synchronized = false;
     this.timeCritical = false;
     this.hasChoice = false;
-    this.balloonTimeout = 10000; // TODO
-    this.choiceTimeout = 20000; // TODO
+    // tslint:disable-next-line no-magic-numbers
+    this.balloonTimeout = 10000; // TODO: 設定から読む
+    // tslint:disable-next-line no-magic-numbers
+    this.choiceTimeout = 20000; // TODO: 設定から読む
   }
 
   timeout() {
     const timeout = this.hasChoice ? this.choiceTimeout : this.balloonTimeout;
-    return timeout >= 1 ? timeout : null;
+
+    return timeout >= 1 ? timeout : undefined;
   }
 
-  setBalloonTimeout(callback) {
+  setBalloonTimeout(callback: () => void) {
     const timeout = this.timeout();
     if (timeout) { // タイムアウトありならタイムアウトイベントを設定
       this.breakTimeoutId = setTimeout(callback, timeout);
@@ -41,7 +50,7 @@ export class ShellState {
   clearBalloonTimeout() {
     if (this.breakTimeoutId) {
       clearTimeout(this.breakTimeoutId);
-      this.breakTimeoutId = null;
+      this.breakTimeoutId = undefined;
     }
   }
 }
@@ -55,21 +64,23 @@ export const ShellRouting: EventRoutingDefiner = (routes) => {
       from.on("halted", controller.halt);
     });
     routes2.from(Named, (from, controller) => {
-      routes.event("choiceselect");
-      routes.event("anchorselect");
-      routes.event("userinput");
-      routes.event("communicateinput");
-      routes.event("mousedown");
-      routes.event("mousemove");
-      routes.event("mouseup");
-      routes.event("mouseclick");
-      routes.event("mousedblclick");
-      routes.event("balloonclick");
-      routes.event("balloondblclick");
-      routes.event("filedrop");
+      from.on("choiceselect", controller.choiceselect);
+      from.on("anchorselect", controller.anchorselect);
+      from.on("userinput", controller.userinput);
+      from.on("communicateinput", controller.communicateinput);
+      from.on("mousedown", controller.mousedown);
+      from.on("mousemove", controller.mousemove);
+      from.on("mouseup", controller.mouseup);
+      from.on("mouseclick", controller.mouseclick);
+      from.on("mousedblclick", controller.mousedblclick);
+      from.on("balloonclick", controller.balloonclick);
+      from.on("balloondblclick", controller.balloondblclick);
+      from.on("filedrop", controller.filedrop);
     });
   });
 };
+
+// tslint:disable max-classes-per-file
 
 export class ShellController extends GhostKernelController {
   start() {
@@ -78,21 +89,23 @@ export class ShellController extends GhostKernelController {
   }
 
   halt() {
-    this.kernel.component(ShellState)!.clearBalloonTimeout();
+    const shellState = this.kernel.component(ShellState);
+    if (shellState) shellState.clearBalloonTimeout();
     this.kernel.unregisterComponent(ShellState);
   }
 
-  choiceselect(event) {
+  choiceselect(event: BalloonSelectEvent) {
     const shiorif = this.kernel.component(Shiorif);
     if (/^On/.test(event.id)) { // On
       shiorif.get3(event.id, event.args).then(this.kernel.executeSakuraScript);
     } else if (/^script:/.test(event.id)) { // script:
       this.kernel.component(SakuraScriptExecuter).execute(event.id.replace(/^script:/, ""));
     } else if (event.args.length) { // Ex
-      shiorif.get3("OnChoiceSelectEx", [event.label, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
+      shiorif.get3("OnChoiceSelectEx", [event.text, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
     } else { // normal
       shiorif.get3("OnChoiceSelectEx", [event.text, event.id]).then((transaction) => {
         const value = transaction.response.to("3.0").headers.Value;
+        // tslint:disable-next-line no-null-keyword
         if (value != null && value.length) {
           this.kernel.executeSakuraScript(transaction);
         } else {
@@ -102,17 +115,18 @@ export class ShellController extends GhostKernelController {
     }
   }
 
-  anchorselect(event) {
+  anchorselect(event: BalloonSelectEvent) {
     const shiorif = this.kernel.component(Shiorif);
     if (/^On/.test(event.id)) { // On
       shiorif.get3(event.id, event.args).then(this.kernel.executeSakuraScript);
     } else if (/^script:/.test(event.id)) { // Script:
       this.kernel.component(SakuraScriptExecuter).execute(event.id.replace(/^script:/, ""));
     } else if (event.args.length) { // Ex
-      shiorif.get3("OnAnchorSelectEx", [event.label, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
+      shiorif.get3("OnAnchorSelectEx", [event.text, event.id, ...event.args]).then(this.kernel.executeSakuraScript);
     } else { // Normal
       shiorif.get3("OnAnchorSelectEx", [event.text, event.id]).then((transaction) => {
         const value = transaction.response.to("3.0").headers.Value;
+        // tslint:disable-next-line no-null-keyword
         if (value != null && value.length) {
           this.kernel.executeSakuraScript(transaction);
         } else {
@@ -122,56 +136,59 @@ export class ShellController extends GhostKernelController {
     }
   }
 
-  userinput(event) {
+  userinput(event: BalloonInputEvent) {
     const shiorif = this.kernel.component(Shiorif);
-    if (event.content != undefined) {
+    // tslint:disable-next-line no-null-keyword
+    if (event.content != null) {
       shiorif.get3("OnUserInput", [event.id, event.content]).then(this.kernel.executeSakuraScript);
     } else {
-      const reason = "close"; // TODO reason
+      const reason = "close"; // TODO: reason
       shiorif.get3("OnUserInputCancel", [event.id, reason]).then(this.kernel.executeSakuraScript);
     }
   }
 
-  communicateinput(event) {
+  communicateinput(event: BalloonInputEvent) {
     const shiorif = this.kernel.component(Shiorif);
-    if (event.content != undefined) {
+    // tslint:disable-next-line no-null-keyword
+    if (event.content != null) {
       // TODO: 拡張情報?
       shiorif.get3("OnCommunicate", ["user", event.content]).then(this.kernel.executeSakuraScript);
     } else {
-      const reason = "cancel"; // TODO reason
+      const reason = "cancel"; // TODO: reason
       shiorif.get3("OnCommunicateInputCancel", ["", reason]).then(this.kernel.executeSakuraScript);
     }
   }
 
-  mousedown(event) {
+  mousedown(event: SurfaceMouseEvent) {
     this._mouseEvent(event, "OnMouseDown");
   }
 
-  mousemove(event) {
+  mousemove(event: SurfaceMouseEvent) {
     this._mouseEvent(event, "OnMouseMove");
   }
 
-  mouseup(event) {
+  mouseup(event: SurfaceMouseEvent) {
     this._mouseEvent(event, "OnMouseUp");
   }
 
-  mouseclick(event) {
+  mouseclick(event: SurfaceMouseEvent) {
     this._mouseEvent(event, "OnMouseClick");
   }
 
-  mousedblclick(event) {
+  mousedblclick(event: SurfaceMouseEvent) {
     this._mouseEvent(event, "OnMouseDoubleClick");
   }
 
-  _mouseEvent(event, id) {
+  _mouseEvent(event: SurfaceMouseEvent, id: string) {
     if (this._timeCritical) return;
     const shiorif = this.kernel.component(Shiorif);
     shiorif.get3(id, this._mouseEventHeaders(event)).then(this.kernel.executeSakuraScript);
   }
 
-  balloonclick(event) { // TODO refactor
-    const named = this.kernel.component(Named) as {};
+  balloonclick(_event: BalloonMouseEvent) { // TODO: refactor
+    const named = this.kernel.component(Named);
     const shellState = this.kernel.component(ShellState);
+    if (!shellState) return;
     this.kernel.component(SakuraScriptExecuter).balloonClicked();
     if (shellState.hasChoice) return; // 選択肢があればクリアされない
     if (!shellState.talking) { // 喋っていない状態でシングルクリックされたら
@@ -180,18 +197,22 @@ export class ShellController extends GhostKernelController {
     }
   }
 
-  balloondblclick(event) {
+  balloondblclick(event: BalloonMouseEvent) {
     const shellState = this.kernel.component(ShellState);
+    if (!shellState) return;
     if (shellState.hasChoice) return; // 選択肢があればクリアされない
     if (shellState.talking) { // 喋っている状態でダブルクリックされたら
       const sakuraScriptExecuter = this.kernel.component(SakuraScriptExecuter);
       sakuraScriptExecuter.abortExecute();
     } else {
-      this._balloonClick("event");
+      this.balloonclick(event);
     }
   }
 
-  filedrop(event) {
+  // tslint:disable-next-line prefer-function-over-method
+  filedrop(_event: FileDropEvent) {
+    // TODO: NamedKernelManagerがないのであとで
+    /*
     // TODO: インストール以外
     const namedKernelManager = this.kernel.component(NamedKernelManager);
     // TODO: jQuery / DOM操作系は何処でするのが良いのか
@@ -199,29 +220,28 @@ export class ShellController extends GhostKernelController {
     event.event.preventDefault();
     event.event.originalEvent.dataTransfer.dropEffect = "copy";
     const files = event.event.originalEvent.dataTransfer.files;
-    for (let i = 0; i < files.length; ++i) {
-      const file = files[i];
+    for (const file of files) {
       namedKernelManager.installNamed(file, this.kernel);
     }
+    */
   }
 
   get _timeCritical() {
     const shellState = this.kernel.component(ShellState);
-    return shellState.timeCritical;
+
+    return shellState && shellState.timeCritical;
   }
 
-  _mouseEventHeaders(event) {
+  // tslint:disable-next-line prefer-function-over-method
+  _mouseEventHeaders(event: SurfaceMouseEvent) {
     return [
-      event.offsetX,
-      event.offsetY,
-      event.wheel,
-      event.scope,
-      event.region,
-      event.button,
-      event.type,
+      event.offsetX.toString(),
+      event.offsetY.toString(),
+      event.wheel.toString(),
+      event.scopeId.toString(),
+      event.region.toString(),
+      event.button.toString(),
+      event.type.toString(),
     ];
   }
 }
-
-GhostKernelRoutings.push(ShellRouting);
-*/

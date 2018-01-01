@@ -21,6 +21,7 @@
     "doc": "typedoc --mode modules --out doc --readme Readme.md --name \"API Document\" --disableOutputCheck --includeDeclarations --excludeNotExported src && cd doc && git status && cd .."
   },
   "dependencies": {
+    "cuttlebone": "^0.2.7",
     "encoding-japanese": "^1.0.26",
     "lazy-event-router": "^8.0.1",
     "nanika-storage": "^2.6.2",
