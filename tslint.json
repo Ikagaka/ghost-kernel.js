@@ -1,22 +1,45 @@
 {
     "extends": [
-        "tslint:recommended"
+        "tslint:all"
     ],
     "rules": {
+        "typedef": false,
+        "no-any": false,
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "member-ordering": false,
+        "triple-equals": [
+            true,
+            "allow-null-check"
+        ],
         "member-access": [
             false
         ],
         "interface-name": [
-            false
+            true,
+            "never-prefix"
+        ],
+        "no-magic-numbers": [
+            true,
+            0,
+            -1,
+            1,
+            200
+        ],
+        "completed-docs": false,
+        "no-unsafe-any": false,
+        "strict-boolean-expressions": false,
+        "no-inferred-empty-object-type": false,
+        "no-use-before-declare": false,
+        "no-void-expression": [
+            true,
+            "ignore-arrow-function-shorthand"
         ],
         "no-namespace": false,
         "curly": false,
         "variable-name": [true, "allow-leading-underscore", "allow-pascal-case"],
-        "object-literal-sort-keys": false,
-        "max-classes-per-file": [
-            false
-        ],
-        "no-string-literal": false,
-        "arrow-parens": false
+        "object-literal-sort-keys": false
     }
 }

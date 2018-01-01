@@ -23,6 +23,7 @@ export class SakuraScriptExecuterService {
     ]);
     const translateResponse = translateTransaction.response.to("3.0");
     if (translateResponse.status_line.code === 200) value = translateResponse.headers.Value;
+    // tslint:disable-next-line no-null-keyword
     if (value != null) await this.sakuraScriptExecuter.execute(value.toString());
   }
 }

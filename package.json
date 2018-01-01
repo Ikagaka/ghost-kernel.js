@@ -23,9 +23,10 @@
   "dependencies": {
     "encoding-japanese": "^1.0.26",
     "lazy-event-router": "^8.0.0",
-    "nanika-storage": "^2.6.1",
+    "nanika-storage": "^2.6.2",
     "sakurascript": "^1.1.0",
     "sakurascript-executer": "^2.0.0",
+    "shiori_transaction": "^1.0.2",
     "shiorif": "^2.1.0",
     "shiorijk": "^0.8.2",
     "shioriloader": "^2.0.0",

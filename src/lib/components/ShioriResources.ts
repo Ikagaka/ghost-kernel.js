@@ -1,3 +1,5 @@
+// tslint:disable max-classes-per-file
+
 export class ShioriResources {
   /** ユーザー名 */
   username?: string;
@@ -5,9 +7,9 @@ export class ShioriResources {
   /** さくら側 */
   sakura: {
     /** おすすめサイト */
-    recommendsites: Sites,
+    recommendsites: Sites;
     /** ポータルサイト */
-    portalsites: Sites,
+    portalsites: Sites;
   } = {
     recommendsites: new Sites(),
     portalsites: new Sites(),
@@ -16,7 +18,7 @@ export class ShioriResources {
   /** うにゅう側 */
   kero: {
     /** おすすめサイト */
-    recommendsites: Sites,
+    recommendsites: Sites;
   } = {
     recommendsites: new Sites(),
   };

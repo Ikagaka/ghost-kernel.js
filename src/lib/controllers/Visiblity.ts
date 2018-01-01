@@ -40,6 +40,7 @@ export class VisibilityController extends GhostKernelController {
   private get visibility() {
     const component = this.kernel.component(Visibility);
     if (!component) throw new Error("Visibility not initialized");
+
     return component;
   }
 }

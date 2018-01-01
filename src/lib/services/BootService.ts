@@ -19,23 +19,24 @@ export class BootService {
     const kernelStartOperation = this.kernelStartOperation;
     const nanikaGhostDirectory = this.nanikaGhostDirectory;
     const profile = await nanikaGhostDirectory.readProfile();
-    const bootCount = profile.bootCount || 0;
+    const bootCount = profile.bootCount as number || 0;
     profile.bootCount = bootCount + 1;
     if (bootCount === 1) {
-      this.firstBoot(profile);
+      await this.firstBoot(profile);
+      // tslint:disable-next-line prefer-switch
     } else if (kernelStartOperation.startedBy === "boot") {
-      this.boot(profile);
+      await this.boot(profile);
     } else if (kernelStartOperation.startedBy === "changed") {
-      this.changed(profile);
+      await this.changed(profile);
     } else if (kernelStartOperation.startedBy === "called") {
-      this.called(profile);
+      await this.called(profile);
     } else {
-      this.vanished(profile);
+      await this.vanished(profile);
     }
     await nanikaGhostDirectory.writeProfile(profile); // 起動が成功してから保存
   }
 
-  private async firstBoot(profile: any) {
+  private async firstBoot(profile: {[name: string]: any}) {
     const shiorif = this.shiorif;
     const kernelPhase = this.kernelPhase;
     const vanishCount = profile.vanishCount || 0;
@@ -51,7 +52,7 @@ export class BootService {
     kernelPhase.bootCompleted();
   }
 
-  private async boot(profile: any) {
+  private async boot(profile: {[name: string]: any}) {
     const shiorif = this.shiorif;
     const kernelPhase = this.kernelPhase;
     const transaction = await shiorif.get3("OnBoot", this.bootHeaders(profile.shellname));
@@ -60,6 +61,7 @@ export class BootService {
     kernelPhase.bootCompleted();
   }
 
+  // tslint:disable-next-line prefer-function-over-method
   private bootHeaders(shellname: string) {
     return {
       Reference0: shellname,
@@ -68,15 +70,15 @@ export class BootService {
     };
   }
 
-  private async changed(profile: any) {
+  private async changed(profile: {[name: string]: any}) {
     await this.changedCore("OnGhostChanged", profile);
   }
 
-  private async called(profile: any) {
+  private async called(profile: {[name: string]: any}) {
     await this.changedCore("OnGhostCalled", profile);
   }
 
-  private async vanished(profile: any) {
+  private async vanished(profile: {[name: string]: any}) {
     await this.changedCore("OnVanished", profile);
   }
 

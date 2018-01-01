@@ -2,6 +2,8 @@ import { NanikaGhostDirectory, NanikaStorage } from "nanika-storage";
 import { Shiorif } from "shiorif";
 import { GhostKernel } from "../GhostKernel";
 
+// tslint:disable prefer-function-over-method
+
 export class NotifyInformationService {
   private kernel: GhostKernel;
 
@@ -99,7 +101,7 @@ export class NotifyInformationService {
     // TODO:
   }
 
-  OnNotifyBrowserInfo() {
+  async OnNotifyBrowserInfo() {
     // TODO:
   }
 

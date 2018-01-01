@@ -21,10 +21,11 @@ export class ShioriResourcesService {
     switch (type) {
       case "sakura.recommendsites": sites = this.shioriResources.sakura.recommendsites; break;
       case "sakura.portalsites": sites = this.shioriResources.sakura.portalsites; break;
-      default: sites = this.shioriResources.kero.recommendsites; break;
+      default: sites = this.shioriResources.kero.recommendsites;
     }
     sites.length = 0; // clear
     for (const site of (await this.shiorif.get3(type)).response.headers.ValueSeparated2()) {
+      // tslint:disable-next-line no-magic-numbers
       sites.push(new SiteMenu(site[0], site[1], site[2], site[3]));
     }
   }

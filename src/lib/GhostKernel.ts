@@ -59,7 +59,6 @@ export class GhostKernel extends LazyEventRouter {
       this.unregisterComponent(KernelChangeOperation);
       this.unregisterComponent(KernelPhase);
     });
-    this.executeSakuraScript = this.executeSakuraScript.bind(this);
   }
 
   /**
@@ -78,7 +77,7 @@ export class GhostKernel extends LazyEventRouter {
   /** カーネルの変更操作 */
   get change() { return this.component(KernelChangeOperation); }
   /** SHIORIトランザクションからさくらスクリプトを実行する */
-  async executeSakuraScript(transaction: ShioriTransaction) {
+  executeSakuraScript = async (transaction: ShioriTransaction) => {
     await this.sakuraScriptExecuterService.execute(transaction);
   }
 }

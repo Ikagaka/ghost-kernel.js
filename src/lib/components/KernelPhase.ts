@@ -1,4 +1,6 @@
-import {EventEmitter} from "events";
+import { EventEmitter } from "events";
+
+// tslint:disable max-classes-per-file
 
 export class KernelPhaseChangeError extends Error {
   constructor(from: KernelPhase.Phase, to: KernelPhase.Phase) {

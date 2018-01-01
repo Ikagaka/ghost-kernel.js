@@ -79,6 +79,7 @@ export class TimeEventController extends GhostKernelController {
     };
   }
 
+  // tslint:disable-next-line prefer-function-over-method
   private _cantalk() {
     // TODO: status modelを参照する
     // const shellState = this.kernel.component(ShellState);

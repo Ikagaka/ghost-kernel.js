@@ -1,6 +1,6 @@
 import { EventRoutingDefiner } from "lazy-event-router";
 // import { NanikaGhostDirectory, NanikaStorage } from "nanika-storage";
-import {Shiorif} from "shiorif";
+import { Shiorif } from "shiorif";
 // import { UkagakaDescriptInfo } from "ukagaka-install-descript-info";
 import { TimerEventSource } from "ukagaka-timer-event-source";
 import { /*KernelChangeOperation,*/ KernelCloseOperation, KernelPhase } from "../components";

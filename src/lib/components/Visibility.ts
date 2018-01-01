@@ -11,10 +11,11 @@ export class Visibility extends EventEmitter {
    * @param initialVisibility 初期可視状態 autoが真の時は無視される
    * @param auto 自動で可視性を判定する Page Visibility APIがある場合はデフォルトで真
    */
+  // tslint:disable-next-line strict-type-predicates
   constructor(initialVisibility = true, auto = typeof document !== "undefined" ? document : undefined) {
     super();
-    this._nativeVisibilityChange = this._nativeVisibilityChange.bind(this);
-    if (initialVisibility !== undefined) {
+    // tslint:disable-next-line no-null-keyword tslint:disable-next-line strict-type-predicates
+    if (initialVisibility != null) {
       this._visibility = initialVisibility;
     }
     this.document = auto;
@@ -24,6 +25,7 @@ export class Visibility extends EventEmitter {
   watchVisibility() {
     if (!this.document) return;
     // hidden プロパティおよび可視性の変更イベントの名前を設定
+    // tslint:disable-next-line strict-type-predicates
     if (typeof this.document.hidden !== "undefined") { // Opera 12.10 や Firefox 18 以降でサポート
       this.hiddenProperty = "hidden";
       this.visibilityChangeProperty = "visibilitychange";
@@ -48,7 +50,7 @@ export class Visibility extends EventEmitter {
     this.document.removeEventListener(this.visibilityChangeProperty, this._nativeVisibilityChange, false);
   }
 
-  _nativeVisibilityChange() {
+  _nativeVisibilityChange = () => {
     this.visibility = !(this.document as any)[this.hiddenProperty];
   }
 

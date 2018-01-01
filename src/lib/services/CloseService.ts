@@ -13,14 +13,11 @@ export class CloseService {
 
   async perform(event: KernelCloseOperation.AllEvent) {
     const kernelPhase = this.kernel.component(KernelPhase);
-    if (event.by === "closeAll") {
-      await this.closeAll(event);
-    } else if (event.by === "close") {
-      await this.close(event);
-    } else if (event.by === "changing") {
-      await this.changing(event);
-    } else {
-      await this.vanish(event as KernelCloseOperation.VanishEvent);
+    switch (event.by) {
+      case "closeAll": await this.closeAll(event); break;
+      case "close": await this.close(event); break;
+      case "changing": await this.changing(event); break;
+      default: await this.vanish(event);
     }
     // 仕様上はスクリプトが\-を返してくれるはず（そこでclosed立てる）
     // そうでなかったとき対策(SSPゆるさ)
@@ -51,6 +48,7 @@ export class CloseService {
     }
   }
 
+  // tslint:disable-next-line prefer-function-over-method
   private async vanish(_event: KernelCloseOperation.VanishEvent) {
     // TODO: vanishはselecting、selectedどっちで発生するのかとか未定
     throw new Error("cannot vanish (not implemented)");

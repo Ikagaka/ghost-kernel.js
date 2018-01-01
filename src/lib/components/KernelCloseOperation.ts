@@ -73,12 +73,12 @@ export namespace KernelCloseOperation {
 
   export interface CloseEvent {
     by: "close" | "closeAll";
-    trigger: KernelCloseOperation.CloseTrigger;
+    trigger: CloseTrigger;
   }
 
   export interface ChangingEvent {
     by: "changing";
-    trigger: KernelCloseOperation.ChangingTrigger;
+    trigger: ChangingTrigger;
     to: ChangeTransactionInfo;
   }
 
