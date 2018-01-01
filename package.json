@@ -12,7 +12,7 @@
     "dist"
   ],
   "scripts": {
-    "dist": "shx rm -rf dist && tsc",
+    "dist": "shx rm -rf dist && tsc && cp src/lib/*.d.ts dist",
     "lint": "npm run tslint",
     "prepublish": "npm run dist",
     "tslint": "tslint -p .",

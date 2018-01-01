@@ -1,3 +1,6 @@
+// tslint:disable-next-line no-reference
+/// <reference path="./cuttlebone.d.ts" />
+
 import { Named } from "cuttlebone";
 import {
   ComponentClass,
