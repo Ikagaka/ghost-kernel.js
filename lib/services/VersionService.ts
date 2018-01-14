@@ -19,8 +19,8 @@ export class VersionService {
       // SHIORI/2.6で返ってきたらそのまま読む
       const header = response.headers.header;
       const _version = "2.6";
-      const name = header.ID;
-      const craftman = header.Craftman;
+      const name = header.ID || "";
+      const craftman = header.Craftman || "";
 
       return new ShioriVersionInfo(name, _version, craftman, craftman);
     } else if (/3\.\d/.test(version)) {
