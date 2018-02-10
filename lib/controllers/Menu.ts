@@ -8,7 +8,7 @@ import { KernelPhase } from "../index";
 import { GhostKernelController } from "./GhostKernelController";
 
 export class Menu {
-  private kernel: GhostKernel;
+  private readonly kernel: GhostKernel;
 
   constructor(kernel: GhostKernel) {
     this.kernel = kernel;

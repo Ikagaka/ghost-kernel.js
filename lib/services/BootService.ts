@@ -4,7 +4,7 @@ import { GhostKernel } from "../GhostKernel";
 import { KernelPhase, KernelStartOperation } from "../index";
 
 export class BootService {
-  private kernel: GhostKernel;
+  private readonly kernel: GhostKernel;
 
   constructor(kernel: GhostKernel) {
     this.kernel = kernel;

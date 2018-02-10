@@ -40,6 +40,7 @@
         "no-namespace": false,
         "curly": false,
         "variable-name": [true, "allow-leading-underscore", "allow-pascal-case"],
-        "object-literal-sort-keys": false
+        "object-literal-sort-keys": false,
+        "newline-per-chained-call": false
     }
 }

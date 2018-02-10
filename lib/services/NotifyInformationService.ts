@@ -5,7 +5,7 @@ import { GhostKernel } from "../GhostKernel";
 // tslint:disable prefer-function-over-method
 
 export class NotifyInformationService {
-  private kernel: GhostKernel;
+  private readonly kernel: GhostKernel;
 
   constructor(kernel: GhostKernel) {
     this.kernel = kernel;

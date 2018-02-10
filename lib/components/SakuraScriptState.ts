@@ -8,7 +8,7 @@ export class SakuraScriptState {
   clearTimerRaise(event: string) {
     const id = this.timerRaiseTimerId[event];
     if (id) clearInterval(id);
-    delete this.timerRaiseTimerId[event];
+    delete this.timerRaiseTimerId[event]; // tslint:disable-line no-dynamic-delete
   }
 
   clearAllTimerRaise() {

@@ -36,7 +36,7 @@ export type GhostKernelRequiredComponent =
 
 /** Ukagaka baseware ghost instance kernel */
 export class GhostKernel extends LazyEventRouter {
-  private sakuraScriptExecuterService: SakuraScriptExecuterService;
+  private readonly sakuraScriptExecuterService: SakuraScriptExecuterService;
 
   /**
    * constructor

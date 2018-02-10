@@ -3,7 +3,7 @@ import { GhostKernel } from "../GhostKernel";
 import { KernelCloseOperation, KernelPhase } from "../index";
 
 export class CloseService {
-  private kernel: GhostKernel;
+  private readonly kernel: GhostKernel;
 
   constructor(kernel: GhostKernel) {
     this.kernel = kernel;

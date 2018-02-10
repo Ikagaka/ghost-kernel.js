@@ -59,6 +59,7 @@ export class TimeEventController extends GhostKernelController {
   private get timerEventState() {
     if (!this.kernel.hasComponent(TimerEventState)) this.kernel.registerComponent(new TimerEventState());
 
+    // tslint:disable-next-line no-unnecessary-type-assertion
     return this.kernel.component(TimerEventState) as TimerEventState;
   }
 

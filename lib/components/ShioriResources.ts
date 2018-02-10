@@ -39,10 +39,10 @@ export class Sites extends Array<SiteMenu> {
 
 /** サイト情報 */
 export class SiteMenu {
-  private _name: string;
-  private _url: string;
-  private _banner: string;
-  private _script: string;
+  private readonly _name: string;
+  private readonly _url: string;
+  private readonly _banner: string;
+  private readonly _script: string;
 
   /**
    * @param name 項目名

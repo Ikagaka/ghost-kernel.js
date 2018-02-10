@@ -2,8 +2,8 @@ import { Shiorif } from "shiorif";
 import { ShioriResources, SiteMenu, Sites } from "../components/ShioriResources";
 
 export class ShioriResourcesService {
-  private shiorif: Shiorif;
-  private shioriResources: ShioriResources;
+  private readonly shiorif: Shiorif;
+  private readonly shioriResources: ShioriResources;
 
   constructor(shiorif: Shiorif, shioriResources: ShioriResources) {
     this.shiorif = shiorif;
