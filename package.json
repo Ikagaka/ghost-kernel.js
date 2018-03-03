@@ -10,7 +10,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "lib/*.d.ts"
   ],
   "scripts": {
     "prepare": "npm run dist",
