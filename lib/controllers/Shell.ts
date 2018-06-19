@@ -50,6 +50,7 @@ export class ShellController extends GhostKernelController {
   }
 
   choiceselect(event: BalloonSelectEvent) {
+    event.args.pop(); // FIXME: cuttlebone Balloon.jsがargsを1つ多く付けるバグの暫定回避 https://github.com/Ikagaka/Balloon.js/pull/14
     const shiorif = this.kernel.component(Shiorif);
     if (/^On/.test(event.id)) { // On
       shiorif.get3(event.id, event.args).then(this.kernel.executeSakuraScript);
@@ -71,6 +72,7 @@ export class ShellController extends GhostKernelController {
   }
 
   anchorselect(event: BalloonSelectEvent) {
+    event.args.pop(); // FIXME: cuttlebone Balloon.jsがargsを1つ多く付けるバグの暫定回避 https://github.com/Ikagaka/Balloon.js/pull/14
     const shiorif = this.kernel.component(Shiorif);
     if (/^On/.test(event.id)) { // On
       shiorif.get3(event.id, event.args).then(this.kernel.executeSakuraScript);
