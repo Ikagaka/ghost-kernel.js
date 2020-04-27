@@ -44,7 +44,7 @@
     "nyc": "^11.4.1",
     "power-assert": "^1.4.4",
     "shx": "^0.2.2",
-    "tslint": "^5.9.1",
+    "tslint": "^6.1.2",
     "typescript": "^2.7.2"
   },
   "url": "https://github.com/Ikagaka/ghost-kernel.js",
